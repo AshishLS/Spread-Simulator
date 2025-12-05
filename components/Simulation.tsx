@@ -200,7 +200,7 @@ export const Simulation: React.FC<SimulationProps> = ({
             b1.infected = true;
             b2.infected = true;
             colorNeedsUpdate = true;
-            // Critical fix: Increment count immediately so we detect the finish condition in this frame
+            // IMPORTANT: Increment immediately so we catch the game-end condition in the same frame
             currentInfectedCount++;
           }
         }
@@ -220,6 +220,7 @@ export const Simulation: React.FC<SimulationProps> = ({
 
     meshRef.current.instanceMatrix.needsUpdate = true;
     
+    // Only update React state or check end condition if colors changed to save performance
     if (colorNeedsUpdate) {
         if (meshRef.current.instanceColor) meshRef.current.instanceColor.needsUpdate = true;
         onStatsUpdate(currentInfectedCount);
